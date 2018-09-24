@@ -19,7 +19,8 @@
     ],
     "paths": {
       "@aurochses/angular-navigation": [
-        "dist/aurochses/angular-navigation"
+        //"dist/aurochses/angular-navigation",
+        "projects/aurochses/angular-navigation/src/public_api.ts"
       ],
       "@aurochses/angular-navigation/*": [
         "dist/aurochses/angular-navigation/*"
