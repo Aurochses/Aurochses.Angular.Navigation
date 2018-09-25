@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 import { INavigationItem } from './models/navigation-item.model';
@@ -11,7 +12,6 @@ export class NavigationService
     onItemCollapsed: Subject<any>;
     onItemCollapseToggled: Subject<any>;
 
-    // Private
     private _onNavigationChanged: BehaviorSubject<any>;
     private _onNavigationRegistered: BehaviorSubject<any>;
     private _onNavigationUnregistered: BehaviorSubject<any>;
@@ -19,9 +19,6 @@ export class NavigationService
     private _currentNavigationKey: string;
     private _registry: { [key: string]: any } = {};
 
-    /**
-     * Constructor
-     */
     constructor()
     {
         // Set the defaults
@@ -35,51 +32,21 @@ export class NavigationService
         this._onNavigationUnregistered = new BehaviorSubject(null);
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Get onNavigationChanged
-     *
-     * @returns {Observable<any>}
-     */
     get onNavigationChanged(): Observable<any>
     {
         return this._onNavigationChanged.asObservable();
     }
 
-    /**
-     * Get onNavigationRegistered
-     *
-     * @returns {Observable<any>}
-     */
     get onNavigationRegistered(): Observable<any>
     {
         return this._onNavigationRegistered.asObservable();
     }
 
-    /**
-     * Get onNavigationUnregistered
-     *
-     * @returns {Observable<any>}
-     */
     get onNavigationUnregistered(): Observable<any>
     {
         return this._onNavigationUnregistered.asObservable();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Register the given navigation
-     * with the given key
-     *
-     * @param key
-     * @param navigation
-     */
     register(key, navigation): void
     {
         // Check if the key already being used
@@ -97,10 +64,6 @@ export class NavigationService
         this._onNavigationRegistered.next([key, navigation]);
     }
 
-    /**
-     * Unregister the navigation from the registry
-     * @param key
-     */
     unregister(key): void
     {
         // Check if the navigation exists
@@ -116,12 +79,6 @@ export class NavigationService
         this._onNavigationUnregistered.next(key);
     }
 
-    /**
-     * Get navigation from registry by key
-     *
-     * @param key
-     * @returns {any}
-     */
     getNavigation(key): any
     {
         // Check if the navigation exists
@@ -136,13 +93,6 @@ export class NavigationService
         return this._registry[key];
     }
 
-    /**
-     * Get flattened navigation array
-     *
-     * @param navigation
-     * @param flatNavigation
-     * @returns {any[]}
-     */
     getFlatNavigation(navigation, flatNavigation: INavigationItem[] = []): any
     {
         for ( const item of navigation )
@@ -166,11 +116,6 @@ export class NavigationService
         return flatNavigation;
     }
 
-    /**
-     * Get the current navigation
-     *
-     * @returns {any}
-     */
     getCurrentNavigation(): any
     {
         if ( !this._currentNavigationKey )
@@ -183,12 +128,6 @@ export class NavigationService
         return this.getNavigation(this._currentNavigationKey);
     }
 
-    /**
-     * Set the navigation with the key
-     * as the current navigation
-     *
-     * @param key
-     */
     setCurrentNavigation(key): void
     {
         // Check if the sidebar exists
@@ -206,14 +145,6 @@ export class NavigationService
         this._onNavigationChanged.next(key);
     }
 
-    /**
-     * Get navigation item by id from the
-     * current navigation
-     *
-     * @param id
-     * @param {any} navigation
-     * @returns {any | boolean}
-     */
     getNavigationItem(id, navigation = null): any | boolean
     {
         if ( !navigation )
@@ -242,14 +173,6 @@ export class NavigationService
         return false;
     }
 
-    /**
-     * Get the parent of the navigation item
-     * with the id
-     *
-     * @param id
-     * @param {any} navigation
-     * @param parent
-     */
     getNavigationItemParent(id, navigation = null, parent = null): any
     {
         if ( !navigation )
@@ -279,12 +202,6 @@ export class NavigationService
         return false;
     }
 
-    /**
-     * Add a navigation item to the specified location
-     *
-     * @param item
-     * @param id
-     */
     addNavigationItem(item, id): void
     {
         // Get the current navigation
@@ -321,11 +238,6 @@ export class NavigationService
         }
     }
 
-    /**
-     * Remove navigation item with the given id
-     *
-     * @param id
-     */
     removeNavigationItem(id): void
     {
         const item = this.getNavigationItem(id);
